@@ -18,7 +18,44 @@ namespace Projectile
 
         public override void Update()
         {
-            
+            if (Globals.keyboard.GetPress("A"))
+            {
+                pos = new Vector2(pos.X - 4, pos.Y);
+            }
+
+            if (Globals.keyboard.GetPress("D"))
+            {
+                pos = new Vector2(pos.X + 4, pos.Y);
+            }
+
+            if (Globals.keyboard.GetPress("R"))
+            {
+                List<KeyValuePair<string, double>> elements = new List<KeyValuePair<string, double>>();
+
+                elements.Add(new KeyValuePair<string, double>("BlackHole", 0.01123));
+                elements.Add(new KeyValuePair<string, double>("Titan", 0.02247));
+                elements.Add(new KeyValuePair<string, double>("Banana", 0.02247));
+                elements.Add(new KeyValuePair<string, double>("Jerry", 0.06741));
+                elements.Add(new KeyValuePair<string, double>("Missile", 0.06741));
+                elements.Add(new KeyValuePair<string, double>("Water", 0.26966));
+                elements.Add(new KeyValuePair<string, double>("Flower", 0.26966));
+                elements.Add(new KeyValuePair<string, double>("Letter", 0.26966));
+
+                Random r = new Random();
+                double diceRoll = r.NextDouble();
+
+                double cumulative = 0.0;
+                for (int i = 0; i < elements.Count; i++)
+                {
+                    cumulative += elements[i].Value;
+                    if (diceRoll < cumulative)
+                    {
+                        string selectedElement = elements[i].Key;
+                        model = Globals.content.Load<Texture2D>(selectedElement);
+                        break;
+                    }
+                }
+            }
 
             base.Update();
         }
